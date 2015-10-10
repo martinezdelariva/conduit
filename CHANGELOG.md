@@ -2,7 +2,79 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release..
 
-## 0.14.1 - TBD
+## 0.15.2 - 2015-05-21
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Modified `composer.json` to *require* only `psr/http-message`, *suggest*
+  `psr/http-message-implementation`, and, in *development*, require `phly/http`;
+  this allows substitution of PSR-7 implementations.
+
+## 0.15.1 - 2015-05-14
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#41](https://github.com/phly/conduit/pull/41) Simplified logic when
+  determining "final" handler to execute.
+
+## 0.15.0 - 2015-04-22
+
+This release updates Conduit to use phly/http 0.12, containing updates to the
+PSR-7 specification as of 13 April 2015. The specifics that affect Conduit include:
+
+- `RequestInterface::withUri()` now has an additional parameter,
+  `$preserveHost`; when `false` (the default), the request's `Host` header is
+  updated with the host component of the provided URI; this affected the
+  `Phly\Conduit\Http\Request` definition.
+- `StreamableInterface` was renamed to `StreamInterface`. This affected both the
+  `Phly\Conduit\Http\Request` and `Phly\Conduit\Http\Response` definitions.
+- `UriInterface` now allows both relative and empty paths.
+
+This last forced a BC break in Conduit, as the previous behavior was that paths
+MUST be prefixed with `/`. As a result, `MiddlewarePipe` now normalizes paths to
+always prepend a `/`, and to trim any trailing `/` characters.
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#39](https://github.com/phly/conduit/pull/39) PSR-7 "Review 2" support.
+
+## 0.14.1 - 2015-04-22
 
 ### Added
 
@@ -19,6 +91,10 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Fixed
 
 - [#37](https://github.com/phly/conduit/pull/37) Improved install instructions.
+- [#38](https://github.com/phly/conduit/pull/38) Fixed URI path extraction
+  examples.
+- [#38](https://github.com/phly/conduit/pull/38) Added more tests to ensure pipe
+  path is trimmed from URI.
 
 ## 0.14.0 - 2015-02-17
 

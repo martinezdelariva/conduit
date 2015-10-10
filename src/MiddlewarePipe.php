@@ -63,7 +63,7 @@ class MiddlewarePipe implements MiddlewareInterface
         $request  = $this->decorateRequest($request);
         $response = $this->decorateResponse($response);
 
-        $done   = is_callable($out) ? $out : new FinalHandler();
+        $done   = $out ?: new FinalHandler();
         $next   = new Next($this->pipeline, $done);
         $result = $next($request, $response);
 
@@ -126,6 +126,11 @@ class MiddlewarePipe implements MiddlewareInterface
         // Prepend slash if missing
         if (empty($path) || $path[0] !== '/') {
             $path = '/' . $path;
+        }
+
+        // Trim trailing slash if present
+        if (strlen($path) > 1 && '/' === substr($path, -1)) {
+            $path = rtrim($path, '/');
         }
 
         return $path;
